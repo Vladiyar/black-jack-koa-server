@@ -1,8 +1,9 @@
 import {handleActions} from "redux-actions"
-import {game, hit, stand, restart} from "./actions";
+import {game, hit, stand, restart, login} from "./actions";
 
-const defaultState = {
-  token: null, //localStorage.getItem('token');
+
+export const defaultState = {
+  token: localStorage.getItem('token'),
   players: null,
   fetched: false,
   result: null,
@@ -82,6 +83,26 @@ export const reducers = handleActions({
             currentPlayer,
             result
         }
-    }
+    },
+        [login]: (state) => {
+            return {
+                ...state,
+                loading: true
+            }
+        },
+        [login.success]: (state, {payload}) => {
+            console.log(payload)
+            localStorage.setItem('token', payload.data.success)
+            // const {players} = payload.data[0];
+            // const {currentPlayer} = payload.data[1];
+            // const {result} = payload.data[2];
+            // return {
+            //     ...state,
+            //     loading: false,
+            //     players,
+            //     currentPlayer,
+            //     result
+            // }
+        }
   }
 , defaultState)

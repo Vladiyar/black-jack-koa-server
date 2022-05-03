@@ -1,3 +1,40 @@
+.is-disabled {
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+.active {
+    color: blue;
+    cursor: default;
+}
+
+.login-page {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    height: 100vh;
+
+    form {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        margin: 5px;
+
+        input {
+            margin: 5px;
+        }
+
+        button {
+            margin: 5px;
+        }
+
+        label {
+            font-size: 2em;
+        }
+    }
+}
 
 .open-window {
     display: flex;

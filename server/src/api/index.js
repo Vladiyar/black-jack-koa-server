@@ -1,5 +1,23 @@
-const Game = require("./Game");
-const Player = require("./Player");
+const Game = require("../logic/Game");
+const Player = require("../logic/Player");
+const jwt = require("jsonwebtoken");
+const {v4: uuidv4} = require("uuid");
+
+const games = {}
+
+
+const newLogin = exports.newLogin = (players) => {
+    const jwt = require('jsonwebtoken');
+    const { v4: uuidv4 } = require('uuid');
+    let token = jwt.sign({ foo: uuidv4() },'shhhhh');
+
+    console.log(players.players)
+    games[token] = new Game(players.players);
+    console.log(games)
+
+}
+
+
 
 
 let g = new Game(new Player, new Player);
