@@ -4,13 +4,13 @@ import {restart} from "../../reducers/actions";
 import {loading, result} from "../../reducers/selectors";
 import ModuleWindow from "./ModuleWindow";
 
-const mapStateToProps = createStructuredSelector({
-  loading,
-  result
+const mapStateToProp = createStructuredSelector({
+    loading,
+    result
 })
 
 const mapDispatchToProps = {
-  restart
+    restart
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(ModuleWindow);
+export default connect(mapStateToProp, mapDispatchToProps)(ModuleWindow);

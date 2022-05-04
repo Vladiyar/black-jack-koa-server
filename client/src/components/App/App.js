@@ -1,43 +1,33 @@
 import React, {useEffect} from 'react';
-import ModuleWindow from "../ModuleWindow";
-import { Outlet, Link } from 'react-router-dom';
-import Login from "../routes/Login/Login";
-import Game from "../routes/Game";
+import {Navigate, Routes, Route, Link} from 'react-router-dom';
+import Game from "../routes/Game/";
+import Login from "../routes/Login";
+import Container from "../Container";
+
+
 
 const App = ({fetched, result, token, login, game}) => {
-  useEffect(() => {
-    setTimeout(() => {game()}, 1000)
-  }, [])
+    useEffect(() => {
+        if (token) {
+            return <Navigate to="/game"/>
+        }
+        return <Navigate to="/login"/>
 
-  if (!fetched) {
-    return (
-        <div className="loading"><p>Loading...</p></div>
-    )
-  }
+    }, [token])
 
-  if (!token) {
-    //redirect to login
-    // return <Link to="/login">Login</Link>
-    return <Login></Login>
-  }
-
-  return (
-    <div className="container">
-      <nav
-          style={{
-            borderBottom: 'solid 1px',
-            paddingBottom: '1rem',
-          }}
-      >
-        <Link to="/login">Login</Link>{' '}
-        <Link className={!token ? 'is-disabled' : null} to="/game">Game</Link>
-      </nav>
-      <Outlet />
-        {/*<button onClick={login}>123</button>*/}
-      {result && <ModuleWindow />}
-
-    </div>
-  );
-};
-
+    return(
+        <>
+            <header>
+                <Link className={!token ? "is-disabled" : null} to="/game">Game</Link>
+                <Link to="/login">Login</Link>
+            </header>
+            <Routes>
+                <Route path="/" element={<Login/>}/>
+                <Route path="game" element={<Game/>}/>
+                <Route path="/login" element={<Login/>}/>
+                <Route path="*" element={<Login/>}/>
+            </Routes>
+        </>
+    );
+}
 export default App;

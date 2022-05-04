@@ -1,24 +1,28 @@
 const Deck = require("./Deck");
+const Player = require("./Player");
 
 module.exports = class Game {
     isGameStarted = false;
     gameTurn = 0;
-    players;
+    players = [];
     card;
     winner;
 
-    constructor (...args) {
+    constructor (playersArray) {
         this.card = new Deck();
-        this.players = args;
-        for (let i = 0; i < this.players.length; i++) {
-            this.players[i].playerName += i;
+        for (const singlePlayer of playersArray) {
+            this.players.push(new Player(singlePlayer))
         }
-        // for (let i = 0; i < this.players.length; i++) {
-        //     addCard();
-        //     addCard();
-        //     nextPlayer();
-        // }
-        // this.isGameStarted = true;
+        for (let i = 0; i < this.players.length; i++) {
+            console.log(this.players[i])
+            const arrayOfCards = [];
+            this.players[i].playerName += i;
+            arrayOfCards.push(this.card.addCard())
+            arrayOfCards.push(this.card.addCard())
+            this.players[i].cardsArray = arrayOfCards;
+
+        }
+        this.isGameStarted = true;
 
     }
 

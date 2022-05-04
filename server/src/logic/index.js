@@ -1,27 +1,9 @@
-const Game = require("../logic/Game");
-const Player = require("../logic/Player");
-const jwt = require("jsonwebtoken");
-const {v4: uuidv4} = require("uuid");
-
-const games = {}
+const Game = require("./Game");
+const Player = require("./Player");
 
 
-const newLogin = exports.newLogin = (players) => {
-    const jwt = require('jsonwebtoken');
-    const { v4: uuidv4 } = require('uuid');
-    let token = jwt.sign({ foo: uuidv4() },'shhhhh');
-
-    console.log(players.players)
-    games[token] = new Game(players.players);
-    console.log(games)
-
-}
-
-
-
-
-let g = new Game(new Player, new Player);
-const state = exports.state = () => {
+// let g = new Game(new Player, new Player);
+const state = exports.state = (g) => {
     return [
         {
             'players': [
@@ -52,7 +34,7 @@ const state = exports.state = () => {
 
 
 
-const addCard = exports.addCard = () => {
+const addCard = exports.addCard = (g) => {
     g.players[g.gameTurn].drawCard(g.card.addCard()) > 21 ? g.players[g.gameTurn].isCanDraw = false : null;
 
     if (!g.players[g.gameTurn].isCanDraw) {
@@ -85,7 +67,7 @@ const addCard = exports.addCard = () => {
     ];
 }
 
-const nextPlayer = exports.nextPlayer = () => {
+const nextPlayer = exports.nextPlayer = (g) => {
     const winner = g.nextPlayer();
 
     if (winner && winner['highestHand'] === 0) {
@@ -167,21 +149,8 @@ const nextPlayer = exports.nextPlayer = () => {
 }
 
 
-for (let i = 0; i < g.players.length; i++) {
-    addCard();
-    addCard();
-    nextPlayer();
-}
-g.isGameStarted = true;
-
-const restart = exports.restart = () => {
-    g = new Game(new Player(), new Player());
-    for (let i = 0; i < g.players.length; i++) {
-        addCard();
-        addCard();
-        nextPlayer();
-    }
-    g.isGameStarted = true;
+const restart = exports.restart = (g) => {
+    g = new Game(['o', 'a']);
 
     return [
         {

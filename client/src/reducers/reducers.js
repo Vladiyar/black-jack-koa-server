@@ -4,6 +4,7 @@ import {game, hit, stand, restart, login} from "./actions";
 
 export const defaultState = {
   token: localStorage.getItem('token'),
+  newPlayers: [],
   players: null,
   fetched: false,
   result: null,
@@ -84,25 +85,24 @@ export const reducers = handleActions({
             result
         }
     },
-        [login]: (state) => {
-            return {
-                ...state,
-                loading: true
-            }
-        },
-        [login.success]: (state, {payload}) => {
-            console.log(payload)
-            localStorage.setItem('token', payload.data.success)
-            // const {players} = payload.data[0];
-            // const {currentPlayer} = payload.data[1];
-            // const {result} = payload.data[2];
-            // return {
-            //     ...state,
-            //     loading: false,
-            //     players,
-            //     currentPlayer,
-            //     result
-            // }
+    [login]: (state) => {
+        return {
+            ...state,
+            loading: true
         }
+    },
+    [login.success]: (state, {payload}) => {
+        localStorage.setItem('token', payload.data.token)
+        // const {players} = payload.data[0];
+        // const {currentPlayer} = payload.data[1];
+        // const {result} = payload.data[2];
+        // return {
+        //     ...state,
+        //     loading: false,
+        //     players,
+        //     currentPlayer,
+        //     result
+        // }
+    }
   }
 , defaultState)

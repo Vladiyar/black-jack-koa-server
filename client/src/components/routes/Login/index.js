@@ -1,16 +1,17 @@
 import {connect} from "react-redux";
-import {token} from "../../../reducers/selectors"
+import {fetched, token} from "../../../reducers/selectors"
 import {login} from "../../../reducers/actions";
 import {createStructuredSelector} from "reselect";
 import Login from "./Login";
 
-const mapStateToProp = createStructuredSelector({
 
+const mapStateToProp = createStructuredSelector({
     token,
+    fetched
 })
 
 const mapDispatchToProps = {
-    login: login
+    login
 }
 
 export default connect(mapStateToProp, mapDispatchToProps)(Login);

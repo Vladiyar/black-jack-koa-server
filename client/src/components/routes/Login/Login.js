@@ -1,23 +1,53 @@
-import React, {useState} from 'react';
-import AdditionalPlayer from "./additionalPlayer";
+import React, {useEffect, useState} from 'react';
+import { Navigate, Routes, Route } from 'react-router-dom';
 
-const Login = ({login}) => {
-    const  [additionalPlayers, setAdditionalPlayers] = useState([]);
+
+const Login = ({login, token}) => {
+    const  [playersList, setPlayersList] = useState(['','']);
+
     const addPlayer = () => {
-        setAdditionalPlayers(<AdditionalPlayer/>);
+        setPlayersList([...playersList, '']);
     };
+
+    const removePlayer = (indexOfArray) => {
+        const list = [...playersList]
+        list.splice(indexOfArray, 1);
+        setPlayersList(list);
+    }
+
+    const changePlayer = (e, indexOfArray) => {
+        const list = [...playersList];
+        list[indexOfArray] = e.target.value;
+        setPlayersList(list);
+    }
+
+    const playersSubmit = () => {
+        login(playersList);
+    }
+
+    // useEffect(() => {
+    //     if(token) {
+    //         return <Navigate to="/game"/>
+    //     }
+    // }, [token])
+
     return (
-        <div className="login-page">
-            <form action=login>
-                <label htmlFor="">Players names</label>
-                <input type="text"/>
-                <input type="text"/>
-                {additionalPlayers}
-                <button onClick={() => {addPlayer()}}>Add more players</button>
-                <button type="submit" onSubmit={} onClick={login}>Start Game</button>
-            </form>
-            
-            
+        <div className="container">
+            <div className="login-page">
+                <form onSubmit={playersSubmit}>
+                    <label htmlFor="">Players names</label>
+                    {playersList.map((player, indexOfArray) => (
+                        <div key={indexOfArray}>
+                            <div className="input-field">
+                                <input value={player.service} onChange={(e) => changePlayer(e, indexOfArray)} type="text"/>
+                                <button type="button" className={playersList.length < 3 ? "remove-btn is-disabled" : "remove-btn"} onClick={() => {removePlayer(indexOfArray)}}>❌</button>
+                            </div>
+                        </div>
+                    ))}
+                    <button type="button" className={playersList.length > 4 ? "remove-btn is-disabled" : "add-btn"} onClick={addPlayer}>Add player</button>
+                    <button type="button" onClick={() => {playersSubmit(playersList)}}>Start Game</button>
+                </form>
+            </div>
         </div>
     );
 };
