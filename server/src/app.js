@@ -2,6 +2,7 @@ const Koa = require('koa');
 const router = require('./router');
 const koaBody = require('koa-body');
 const serve = require('koa-static');
+
 const path = require('path');
 const cors  = require('@koa/cors');
 const niv = require('node-input-validator');
@@ -13,6 +14,8 @@ app.use(koaBody());
 app.use(router.routes());
 app.use(router.allowedMethods());
 app.use(niv.koa());
+
+app.use(serve(path.join(__dirname + '/static')));
 
 app.use(async (ctx) => {
     ctx.body = 'Hello world';

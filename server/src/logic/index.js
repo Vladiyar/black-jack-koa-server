@@ -2,37 +2,31 @@ const Game = require("./Game");
 const Player = require("./Player");
 
 
-// let g = new Game(new Player, new Player);
-const state = exports.state = (g) => {
-    return [
+const arrayCreator = exports.arrayCreator = (g, result) => {
+    const responseArray = [
         {
-            'players': [
-                {
-                    'player': g.players[0].playerName,
-                    'playerName': g.players[0].playerRealName,
-                    'isCanDraw': g.players[0].isCanDraw,
-                    'cards': g.players[0].cardsArray,
-                    'currentPlayer': g.gameTurn
-                },
-                {
-                    'player': g.players[1].playerName,
-                    'isCanDraw': g.players[1].isCanDraw,
-                    'cards': g.players[1].cardsArray,
-                    'currentPlayer': g.gameTurn
-                }
-            ],
+            'players': [],
         },
         {
             'currentPlayer': g.gameTurn
         },
         {
-            'result': g.winner
-        }
-    ];
+            'result': result
+        }]
+    for (let i = 0; i < g.players.length; i++) {
+        responseArray[0].players.push({
+            'player': g.players[i].playerName,
+            'playerName': g.players[i].playerRealName,
+            'isCanDraw': g.players[i].isCanDraw,
+            'cards': g.players[i].cardsArray,
+            'currentPlayer': g.gameTurn
+        })
+    }
+    return responseArray;
 }
-
-
-
+const state = exports.state = (g) => {
+    return arrayCreator(g, g.winner);
+}
 
 const addCard = exports.addCard = (g) => {
     g.players[g.gameTurn].drawCard(g.card.addCard()) > 21 ? g.players[g.gameTurn].isCanDraw = false : null;
@@ -41,139 +35,22 @@ const addCard = exports.addCard = (g) => {
         g.players[g.gameTurn].isPlayerDraw = false;
         return nextPlayer();
     }
-    return [
-        {
-            'players': [
-                {
-                    'player': g.players[0].playerName,
-                    'isCanDraw': g.players[0].isCanDraw,
-                    'cards': g.players[0].cardsArray,
-                    'currentPlayer': g.gameTurn
-                },
-                {
-                    'player': g.players[1].playerName,
-                    'isCanDraw': g.players[1].isCanDraw,
-                    'cards': g.players[1].cardsArray,
-                    'currentPlayer': g.gameTurn
-                }
-            ],
-        },
-        {
-            'currentPlayer': g.gameTurn
-        },
-        {
-            'result': null
-        }
-    ];
+    return arrayCreator(g, g.winner);
 }
 
 const nextPlayer = exports.nextPlayer = (g) => {
     const winner = g.nextPlayer();
 
     if (winner && winner['highestHand'] === 0) {
-        return [
-            {
-                'players': [
-                    {
-                        'player': g.players[0].playerName,
-                        'isCanDraw': g.players[0].isCanDraw,
-                        'cards': g.players[0].cardsArray,
-                        'currentPlayer': g.gameTurn
-                    },
-                    {
-                        'player': g.players[1].playerName,
-                        'isCanDraw': g.players[1].isCanDraw,
-                        'cards': g.players[1].cardsArray,
-                        'currentPlayer': g.gameTurn
-                    }
-                ],
-            },
-            {
-                'currentPlayer': g.gameTurn
-            },
-            {
-                result: "It's a draw"
-        }
-        ];
+        return arrayCreator(g, "It's a draw")
     }
     if (winner) {
-        return [
-            {
-                'players': [
-                    {
-                        'player': g.players[0].playerName,
-                        'isCanDraw': g.players[0].isCanDraw,
-                        'cards': g.players[0].cardsArray,
-                        'currentPlayer': g.gameTurn
-                    },
-                    {
-                        'player': g.players[1].playerName,
-                        'isCanDraw': g.players[1].isCanDraw,
-                        'cards': g.players[1].cardsArray,
-                        'currentPlayer': g.gameTurn
-                    }
-                ],
-            },
-            {
-                'currentPlayer': g.gameTurn
-            },
-            {
-                result : 'Won ' +winner['winnerName'] + ' with ' + winner['highestHand']
-            }
-        ];
+        return arrayCreator(g, 'Won ' +winner['winnerName'] + ' with ' + winner['highestHand'])
     }
-    return [
-        {
-            'players': [
-                {
-                    'player': g.players[0].playerName,
-                    'isCanDraw': g.players[0].isCanDraw,
-                    'cards': g.players[0].cardsArray,
-                    'currentPlayer': g.gameTurn
-                },
-                {
-                    'player': g.players[1].playerName,
-                    'isCanDraw': g.players[1].isCanDraw,
-                    'cards': g.players[1].cardsArray,
-                    'currentPlayer': g.gameTurn
-                }
-            ],
-        },
-        {
-            'currentPlayer': g.gameTurn
-        },
-        {
-            'result': null
-        }
-    ];
+    return arrayCreator(g, g.winner);
 }
 
 
 const restart = exports.restart = (g) => {
-    g = new Game(['o', 'a']);
-
-    return [
-        {
-            'players': [
-                {
-                    'player': g.players[0].playerName,
-                    'isCanDraw': g.players[0].isCanDraw,
-                    'cards': g.players[0].cardsArray,
-                    'currentPlayer': g.gameTurn
-                },
-                {
-                    'player': g.players[1].playerName,
-                    'isCanDraw': g.players[1].isCanDraw,
-                    'cards': g.players[1].cardsArray,
-                    'currentPlayer': g.gameTurn
-                }
-            ],
-        },
-        {
-            'currentPlayer': g.gameTurn
-        },
-        {
-            'result': null
-        }
-    ];
+    return arrayCreator(g, g.winner);
 }

@@ -14,7 +14,6 @@ module.exports = class Game {
             this.players.push(new Player(singlePlayer))
         }
         for (let i = 0; i < this.players.length; i++) {
-            console.log(this.players[i])
             const arrayOfCards = [];
             this.players[i].playerName += i;
             arrayOfCards.push(this.card.addCard())
@@ -36,7 +35,7 @@ module.exports = class Game {
                     winnerName: '',
                 }
                 for (let i = 0; i < this.players.length; i++) {
-                    (winner['highestHand'] < this.players[i].handValue  && this.players[i].handValue <= 21) ? (winner['highestHand'] = this.players[i].handValue, winner['winnerName'] = 'player ' + i) : null;
+                    (winner['highestHand'] < this.players[i].handValue && this.players[i].handValue <= 21) ? (winner['highestHand'] = this.players[i].handValue, winner['winnerName'] = this.players[i].playerRealName) : null;
                 }
                 this.winner = winner;
                 return winner;
