@@ -3,7 +3,7 @@ import React from 'react';
 const Name = (props) => {
     return (
         <div className="player-name">
-            Player {props.nameData}
+            {props.nameData}
         </div>
     );
 };

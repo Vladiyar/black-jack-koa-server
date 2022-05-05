@@ -1,33 +1,12 @@
 import React, {useEffect} from 'react';
-import {Navigate, Routes, Route, Link} from 'react-router-dom';
-import Game from "../routes/Game/";
-import Login from "../routes/Login";
-import Container from "../Container";
+import {Navigate} from 'react-router-dom';
 
-
-
-const App = ({fetched, result, token, login, game}) => {
-    useEffect(() => {
-        if (token) {
-            return <Navigate to="/game"/>
-        }
-        return <Navigate to="/login"/>
-
-    }, [token])
-
+const App = ({token}) => {
+    if  (!token) {
+       return <Navigate to="/login"/>
+    }
     return(
-        <>
-            <header>
-                <Link className={!token ? "is-disabled" : null} to="/game">Game</Link>
-                <Link to="/login">Login</Link>
-            </header>
-            <Routes>
-                <Route path="/" element={<Login/>}/>
-                <Route path="game" element={<Game/>}/>
-                <Route path="/login" element={<Login/>}/>
-                <Route path="*" element={<Login/>}/>
-            </Routes>
-        </>
+        <Navigate to="/game"/>
     );
 }
 export default App;

@@ -31,6 +31,15 @@ export const reducers = handleActions({
             fetched: true
         }
     },
+    [game.fail]: (state) => {
+        localStorage.clear();
+        return {
+            ...state,
+            token: null,
+            loading: false,
+            fetched: true,
+        }
+    },
     [hit]: (state) => {
         return {
             ...state,
@@ -48,6 +57,9 @@ export const reducers = handleActions({
             currentPlayer,
             result
         }
+    },
+    [hit.fail]: (state) => {
+        console.log(state)
     },
     [stand]: (state) => {
         return {

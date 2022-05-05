@@ -6,7 +6,7 @@ module.exports = {
     entry: "./src/index.js",
     output: {
         filename: "index.js",
-        path: path.resolve(__dirname, "./src/dist")
+        path: path.resolve(__dirname, "../server/src/static")
     },
     plugins: [
         new HtmlWebPackPlugin({
@@ -40,8 +40,10 @@ module.exports = {
         ],
     },
     devServer: {
-        static: path.join(__dirname, 'dist'),
+        static: path.join(__dirname, '../server/src/static'),
         port: 5000,
         open: true,
+        historyApiFallback: true,
+        hot: true
     }
 };

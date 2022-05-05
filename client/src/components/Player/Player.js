@@ -25,7 +25,7 @@ const Player = (props) => {
 
     return (
         <div className={scoreValue > 21 ? "player lost" : "player " + playerClass}>
-            <Name nameData = {props.playerData.player} />
+            <Name nameData = {props.playerData.playerName} />
             <Hand cardsData = {props.playerData.cards} />
             <Score scoreData = {scoreValue}/>
         </div>

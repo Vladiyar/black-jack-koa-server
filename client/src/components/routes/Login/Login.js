@@ -1,5 +1,5 @@
-import React, {useEffect, useState} from 'react';
-import { Navigate, Routes, Route } from 'react-router-dom';
+import React, {useState} from 'react';
+import { Navigate } from 'react-router-dom';
 
 
 const Login = ({login, token}) => {
@@ -11,7 +11,10 @@ const Login = ({login, token}) => {
 
     const removePlayer = (indexOfArray) => {
         const list = [...playersList]
+        console.log(indexOfArray)
         list.splice(indexOfArray, 1);
+        console.log(list)
+
         setPlayersList(list);
     }
 
@@ -25,29 +28,25 @@ const Login = ({login, token}) => {
         login(playersList);
     }
 
-    // useEffect(() => {
-    //     if(token) {
-    //         return <Navigate to="/game"/>
-    //     }
-    // }, [token])
+    if(token) {
+        return <Navigate to="/game"/>
+    }
 
     return (
-        <div className="container">
-            <div className="login-page">
-                <form onSubmit={playersSubmit}>
-                    <label htmlFor="">Players names</label>
-                    {playersList.map((player, indexOfArray) => (
-                        <div key={indexOfArray}>
-                            <div className="input-field">
-                                <input value={player.service} onChange={(e) => changePlayer(e, indexOfArray)} type="text"/>
-                                <button type="button" className={playersList.length < 3 ? "remove-btn is-disabled" : "remove-btn"} onClick={() => {removePlayer(indexOfArray)}}>❌</button>
-                            </div>
+        <div className="login-page">
+            <form onSubmit={playersSubmit}>
+                <label htmlFor="">Players names</label>
+                {playersList.map((player, indexOfArray) => (
+                    <div key={indexOfArray}>
+                        <div className="input-field">
+                            <input value={player.service} onChange={(e) => changePlayer(e, indexOfArray)} type="text"/>
+                            <button type="button" className={playersList.length < 3 ? "remove-btn is-disabled" : "remove-btn"} onClick={() => {removePlayer(indexOfArray)}}>❌</button>
                         </div>
-                    ))}
-                    <button type="button" className={playersList.length > 4 ? "remove-btn is-disabled" : "add-btn"} onClick={addPlayer}>Add player</button>
-                    <button type="button" onClick={() => {playersSubmit(playersList)}}>Start Game</button>
-                </form>
-            </div>
+                    </div>
+                ))}
+                <button type="button" className={playersList.length > 4 ? "remove-btn is-disabled" : "add-btn"} onClick={addPlayer}>Add player</button>
+                <button type="submit" >Start Game</button>
+            </form>
         </div>
     );
 };
