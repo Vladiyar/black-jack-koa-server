@@ -20,7 +20,7 @@ app.use(serve(path.join(__dirname + '/static')));
 
 async function start() {
     try {
-        await mongoose.connect('mongodb+srv://vladiyar:1q2w3e4r759759@cluster0.6n1wt.mongodb.net/blackJack?retryWrites=true&w=majority', {
+        await mongoose.connect(1, {
             useNewUrlParser: true,
             // useFindAndModify: false
         })
