@@ -59,7 +59,13 @@ export const reducers = handleActions({
         }
     },
     [hit.fail]: (state) => {
-        console.log(state)
+        localStorage.clear();
+        return {
+            ...state,
+            token: null,
+            loading: false,
+            fetched: true,
+        }
     },
     [stand]: (state) => {
         return {
@@ -105,16 +111,6 @@ export const reducers = handleActions({
     },
     [login.success]: (state, {payload}) => {
         localStorage.setItem('token', payload.data.token)
-        // const {players} = payload.data[0];
-        // const {currentPlayer} = payload.data[1];
-        // const {result} = payload.data[2];
-        // return {
-        //     ...state,
-        //     loading: false,
-        //     players,
-        //     currentPlayer,
-        //     result
-        // }
     }
   }
 , defaultState)

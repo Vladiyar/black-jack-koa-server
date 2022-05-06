@@ -1,4 +1,5 @@
 import {createAction} from "redux-actions";
+import {token} from "./selectors";
 
 const createRequestAction = (type, payloadCreator) => {
     const action = createAction(type, payloadCreator);
@@ -8,30 +9,34 @@ const createRequestAction = (type, payloadCreator) => {
     return action;
 }
 
+const middlewareConfig = {
+    interceptors: {
+        request: [
+            function ({state}, req) {
+                req.headers["Authorization"] = token;
+            }
+        ]
+    }
+}
+
+console.log(middlewareConfig)
 export const game = createRequestAction('GAME', () => ({
     request: {
         method: 'post',
         url: '/api/game',
-        data: {
-            token: localStorage.getItem('token'),
-        },
+        // middlewareConfig
         headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json',
+            Authorization: localStorage.getItem('token'),
         },
     }
 }));
 
-export const hit = createRequestAction('HIT', () => ({
+export const hit = createRequestAction('HIT', (token) => ({
     request: {
         method: 'post',
         url: '/api/hit',
-        data: {
-            token: localStorage.getItem('token'),
-        },
         headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json',
+            Authorization: localStorage.getItem('token'),
         },
     }
 }));
@@ -40,12 +45,8 @@ export const stand = createRequestAction('STAND', () => ({
     request: {
         method: 'post',
         url: '/api/stand',
-        data: {
-            token: localStorage.getItem('token'),
-        },
         headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json',
+            Authorization: localStorage.getItem('token'),
         },
     }
 }));
@@ -54,12 +55,8 @@ export const restart = createRequestAction('RESTART', () => ({
     request: {
         method: 'post',
         url: '/api/restart',
-        data: {
-            token: localStorage.getItem('token'),
-        },
         headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json',
+            Authorization: localStorage.getItem('token'),
         },
 
     }
@@ -71,10 +68,6 @@ export const login = createRequestAction('LOGIN', (newPlayers) => ({
         url: '/api/login',
         data: {
             players: newPlayers,
-        },
-        headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json',
         },
     }
 }));

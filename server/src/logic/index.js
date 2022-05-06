@@ -3,8 +3,7 @@ const Player = require("./Player");
 
 
 const arrayCreator = exports.arrayCreator = (g, result) => {
-    const responseArray = [
-        {
+    const responseArray = [{
             'players': [],
         },
         {
@@ -19,13 +18,14 @@ const arrayCreator = exports.arrayCreator = (g, result) => {
             'playerName': g.players[i].playerRealName,
             'isCanDraw': g.players[i].isCanDraw,
             'cards': g.players[i].cardsArray,
+            'handValue': g.players[i].handValue,
             'currentPlayer': g.gameTurn
         })
     }
     return responseArray;
 }
 const state = exports.state = (g) => {
-    return arrayCreator(g, g.winner);
+    return arrayCreator(g);
 }
 
 const addCard = exports.addCard = (g) => {
@@ -33,7 +33,7 @@ const addCard = exports.addCard = (g) => {
 
     if (!g.players[g.gameTurn].isCanDraw) {
         g.players[g.gameTurn].isPlayerDraw = false;
-        return nextPlayer();
+        return nextPlayer(g);
     }
     return arrayCreator(g, g.winner);
 }
@@ -45,7 +45,7 @@ const nextPlayer = exports.nextPlayer = (g) => {
         return arrayCreator(g, "It's a draw")
     }
     if (winner) {
-        return arrayCreator(g, 'Won ' +winner['winnerName'] + ' with ' + winner['highestHand'])
+        return arrayCreator(g, 'Won ' + winner['winnerName'] + ' with ' + winner['highestHand'])
     }
     return arrayCreator(g, g.winner);
 }

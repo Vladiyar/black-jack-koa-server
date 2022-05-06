@@ -12,17 +12,13 @@ module.exports = class Player {
     drawCard(cardDescription) {
         if (this.isCanDraw) {
             this.cardsArray.push(cardDescription);
-            let tmpValue = 0;
             if (cardDescription[1] === 11) {
-                if ((this.handValue + 11) > 21) {
-                    tmpValue = 1
-                } else {
-                    tmpValue = 11
+                if (this.handValue + 11 > 21) {
+                    this.handValue += 1;
+                    return;
                 }
             }
-            // cardDescription[1] === 11 ? (this.handValue + 11 > 21 ? tmpValue = 1 : tmpValue + 11) : tmpValue = cardDescription[1];
-            tmpValue = cardDescription[1];
-            return this.handValue += tmpValue;
+            return this.handValue += cardDescription[1];
         }
     }
 

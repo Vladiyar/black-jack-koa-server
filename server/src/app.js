@@ -6,6 +6,7 @@ const serve = require('koa-static');
 const path = require('path');
 const cors  = require('@koa/cors');
 const niv = require('node-input-validator');
+const mongoose = require("mongoose");
 
 const app = new Koa();
 
@@ -17,11 +18,19 @@ app.use(niv.koa());
 
 app.use(serve(path.join(__dirname + '/static')));
 
-app.use(async (ctx) => {
-    ctx.body = 'Hello world';
-})
+async function start() {
+    try {
+        await mongoose.connect('mongodb+srv://vladiyar:1q2w3e4r759759@cluster0.6n1wt.mongodb.net/blackJack?retryWrites=true&w=majority', {
+            useNewUrlParser: true,
+            // useFindAndModify: false
+        })
+        app.listen(3000, () => {
+            console.log('listening on port 3000..')
+        });
+    } catch (e) {
+        console.log(e)
+    }
+}
+start()
 
-app.listen(3000, () => {
-    console.log('listening on port 3000..')
-});
 
