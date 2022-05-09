@@ -7,7 +7,6 @@ const jwt = require('jsonwebtoken');
 const { v4: uuidv4 } = require('uuid');
 const {Validator} = require("node-input-validator");
 const {createReadStream} = require('fs')
-const dbHandler = require('../models/dbHandler')
 
 
 const jwtKey = 'potato';
@@ -37,8 +36,6 @@ const authMiddleware = (ctx, next) => {
 
 checkingGame = async (ctx, next) => {
     const session = ctx.state.session.sessionId;
-    const gamesOnDB = await dbHandler.find({})
-    // console.log(gamesOnDB)
     if (!games[session]) {
         ctx.status = 501;
         return;
@@ -85,11 +82,6 @@ router.post('/api/login', async (ctx) => {
     if (matched) {
 
         games[sessionId] = new Game(data.players);
-        // const mongoGame = new dbHandler({
-        //     games[sessionId]
-        // })
-        // await mongoGame.save()
-
 
         try {
         ctx.body = await login.loginApi(token);
